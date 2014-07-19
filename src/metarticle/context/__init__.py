@@ -7,4 +7,4 @@ def extract(text):
     :param text: the text to contextualize
     :return: array of string representing the context
     '''
-    return sent_tokenize(text)
+    return sent_tokenize(text.lower())
