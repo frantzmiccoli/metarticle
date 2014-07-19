@@ -6,6 +6,7 @@ import context
 import sentiment
 import conceptgraph
 
+
 target_url = 'http://www.cbinsights.com/blog/startup-failure-post-mortem'
 
 texts = crawler.getTextsFromUrl(target_url)
