@@ -18,7 +18,7 @@ def extract(text):
     wordnet = WordNetLemmatizer()
 
     # Cut out words from the context and part-of-speech tag them
-    words = RegexpTokenizer(r'\w+').tokenize(text)
+    words = RegexpTokenizer(r'[a-z]+').tokenize(text)
     pos = pos_tag(words)
 
     # Extract noun-typed entities
