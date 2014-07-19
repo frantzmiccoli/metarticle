@@ -3,17 +3,25 @@ task :default do
     puts 'rake data'
 end
 
+targetDir = 'data/train/'
+
 task :data do
     dataUrl = 'http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz'
     tmpFile = '/tmp/metarticle-sentiment-dataset.tgz'
-    `curl -o #{tmpFile} #{dataUrl}` 
+    unless File.file? tmpFile
+        `curl -o #{tmpFile} #{dataUrl}` 
+    end
     `(cd /tmp; tar -xvf #{tmpFile})`
 
     sourceDir = '/tmp/aclImdb/train/'
-    targetDir = 'data/train/'
     howMany = '64'
     `mkdir -p #{targetDir}/pos`
     `find #{sourceDir}/pos/ | grep txt|tail -n #{howMany}|xargs -I % cp % #{targetDir}/pos`
     `mkdir -p #{targetDir}/neg`
     `find #{sourceDir}/neg/ | grep txt|tail -n #{howMany}|xargs -I % cp % #{targetDir}/neg`
+end
+
+task :clean do
+    `rm -rf #{targetDir}/neg`
+    `rm -rf #{targetDir}/pos`
 end
