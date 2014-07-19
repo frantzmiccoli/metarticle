@@ -42,7 +42,6 @@ def get_text(url):
 def get_texts_from_url(url):
     links = get_links(url)
     print 'links found: ', len(links)
-    links = links[0:30]
 
     texts = [get_text(link) for link in links]
 
