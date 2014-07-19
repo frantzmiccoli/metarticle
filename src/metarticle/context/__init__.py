@@ -1,4 +1,4 @@
-from nltk.tokenize import blankline_tokenize
+from nltk.tokenize import sent_tokenize
 
 def extract(text):
     '''
@@ -7,4 +7,4 @@ def extract(text):
     :param text: the text to contextualize
     :return: array of string representing the context
     '''
-    return blankline_tokenize(text)
+    return sent_tokenize(text)
