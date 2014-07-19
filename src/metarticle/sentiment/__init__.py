@@ -1,9 +1,10 @@
 import os
+import pickle
 
-import nltk
 from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer, sent_tokenize
+
 
 def extract_features(text):
     splitter = RegexpTokenizer(r'\w+')
@@ -31,8 +32,6 @@ def train_sentiment_classifier():
     load_samples('../data/train/pos', 'pos', training_set)
     return NaiveBayesClassifier.train(training_set)
 
-sentiment_classifier = train_sentiment_classifier()
-
 def get_sentiment(text):
     features = extract_features(text)
     dist = sentiment_classifier.prob_classify(features)
@@ -43,5 +42,23 @@ def get_sentiment(text):
     else:
         return 'neutral'
 
+classifier_path = '../data/classifier.model'
+
 def persist(classifier):
-    path = '../data/classifier.model'
+    handle = open(classifier_path, 'w')
+    pickle.dump(classifier, handle)
+    handle.close()
+
+def restore():
+    if os.path.exists(classifier_path):
+        handle = open(classifier_path)
+        return pickle.load(handle)
+
+sentiment_classifier = restore()
+
+if sentiment_classifier is None:
+    sentiment_classifier = train_sentiment_classifier()
+    persist(sentiment_classifier)
+    print 'classifier created and persisted'
+else:
+    print 'classifier restored'
