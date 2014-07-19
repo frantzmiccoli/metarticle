@@ -30,7 +30,7 @@ def get_html(url):
     header, response = http.request(url)
     if header.status != 200:
         print 'Holy shit got a ', header.status, ' for ', url
-        return
+        return ''
 
     return Document(response).summary()
 
