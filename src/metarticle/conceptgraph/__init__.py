@@ -14,7 +14,7 @@ class ConceptGraph:
 
     def prepare_communities(self):
         self.dendrogram = community.generate_dendrogram(self.g)
-        for level in range(len(self.dendrogram)) :
+        for level in range(len(self.dendrogram)):
             print "partition at level", level, "is",\
                 community.partition_at_level(self.dendrogram, level)
 
