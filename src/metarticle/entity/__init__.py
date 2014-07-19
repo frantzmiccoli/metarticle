@@ -1,6 +1,8 @@
 import nltk
-from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 from nltk.tag import pos_tag
+from nltk.tokenize import RegexpTokenizer
+
 
 def resolve_anaphores(text):
     return text
@@ -12,13 +14,13 @@ def extract(text):
     '''
 
     # Cut out words from the context and part-of-speech tag them
-    words = word_tokenize(text)
+    words = RegexpTokenizer(r'\w+').tokenize(text)
     pos = pos_tag(words)
 
     # Extract noun-typed entities
     entities = []
     for (word, tag) in pos:
-        if tag.startswith('NN'):
+        if tag.startswith('NN') and word not in stopwords.words():
             entities.append(word)
 
     return entities
