@@ -14,7 +14,7 @@ task :data do
     `(cd /tmp; tar -xvf #{tmpFile})`
 
     sourceDir = '/tmp/aclImdb/train/'
-    howMany = '128'
+    howMany = '1024'
     `mkdir -p #{targetDir}/pos`
     `find #{sourceDir}/pos/ | grep txt|tail -n #{howMany}|xargs -I % cp % #{targetDir}/pos`
     `mkdir -p #{targetDir}/neg`
