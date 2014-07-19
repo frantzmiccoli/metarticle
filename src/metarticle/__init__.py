@@ -35,5 +35,27 @@ for candidate_context in contexts:
         concept_graph.add_edge(entity1, entity2)
 
 concept_graph.prepare_communities()
-print concept_graph.get_communities_level(concept_graph.get_communities_levels_number() - 1)
+
+communities = concept_graph.get_communities_level(concept_graph.get_communities_levels_number() - 1)
+
+def compute_sentiment(values):
+    counters = {}
+    for value in values:
+        if value in counters:
+            counters[value] += 1
+        else:
+            counters[value] = 1
+            
+    best, bestCount = 'neutral', 0
+    total = 0
+    for value, count in counters.items():
+        total += count
+        if count > bestCount:
+            best = value
+            bestCount = count
+
+    return (best, float(bestCount)/float(total))
+
+for index, community in communities.items():
+    print community, '\t', compute_sentiment(entities_sentiments[community])
 
