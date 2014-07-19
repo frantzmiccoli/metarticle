@@ -10,6 +10,10 @@ task :data do
     `(cd /tmp; tar -xvf #{tmpFile})`
 
     sourceDir = '/tmp/aclImdb/train/'
-    ``
-
+    targetDir = 'data/train/'
+    howMuch = '30'
+    `mkdir -p #{targetDir}/pos`
+    `find #{sourceDir}/pos/ | grep txt|tail -n #{howMuch}|xargs -I % cp % #{targetDir}/pos`
+    `mkdir -p #{targetDir}/neg`
+    `find #{sourceDir}/neg/ | grep txt|tail -n #{howMuch}|xargs -I % cp % #{targetDir}/neg`
 end
