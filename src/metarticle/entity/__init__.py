@@ -21,4 +21,4 @@ def extract(text):
         if tag.startswith('NN'):
             entities.append(word)
 
-    entities
+    return entities

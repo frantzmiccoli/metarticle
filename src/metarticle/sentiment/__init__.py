@@ -27,8 +27,8 @@ def load_samples(path, label, output):
 
 def train_sentiment_classifier():
     training_set = []
-    load_samples('dataset/neg', 'neg', training_set)
-    load_samples('dataset/pos', 'pos', training_set)
+    load_samples('/Work/sandbox/aclImdb/train/neg_sample', 'neg', training_set)
+    load_samples('/Work/sandbox/aclImdb/train/pos_sample', 'pos', training_set)
     return NaiveBayesClassifier.train(training_set)
 
 sentiment_classifier = train_sentiment_classifier()
