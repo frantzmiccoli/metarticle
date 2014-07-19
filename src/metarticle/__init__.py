@@ -36,7 +36,8 @@ for candidate_context in contexts:
 
 concept_graph.prepare_communities()
 
-communities = concept_graph.get_communities_level(concept_graph.get_communities_levels_number() - 1)
+level = concept_graph.get_communities_levels_number() - 1
+communities = concept_graph.get_communities_level(level)
 
 def compute_sentiment(values):
     counters = {}
@@ -57,5 +58,12 @@ def compute_sentiment(values):
     return (best, float(bestCount)/float(total))
 
 for index, community in communities.items():
-    print community, '\t', compute_sentiment(entities_sentiments[community])
+    print community
+    count = 0
+    for entity in concept_graph.get_covered_entities(community, level):
+        print '\t\t', entity, '\t', compute_sentiment(entities_sentiments[entity])
+        count += 1
+        if count == 13:
+            break
+
 
