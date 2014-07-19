@@ -2,6 +2,7 @@
 import httplib2
 from BeautifulSoup import BeautifulSoup, SoupStrainer
 from readability.readability import Document
+import mlstripper
 
 def get_links(url):
     html = get_html(url)
@@ -34,12 +35,16 @@ def get_html(url):
 
     return Document(response).summary()
 
+def get_text(url):
+    html = get_html()
+    return mlstripper.strip_tags(html)
+
 def get_texts_from_url(url):
     links = get_links(url)
     print 'links found: ', len(links)
     links = links[0:30]
 
-    texts = [get_html(link) for link in links]
+    texts = [get_text(link) for link in links]
 
     return texts
 
