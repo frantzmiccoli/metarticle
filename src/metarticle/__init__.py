@@ -35,5 +35,5 @@ for candidate_context in contexts:
         concept_graph.add_edge(entity1, entity2)
 
 concept_graph.prepare_communities()
-concept_graph.get_communities_level(concept_graph.get_communities_levels_number() - 1)
+print concept_graph.get_communities_level(concept_graph.get_communities_levels_number() - 1)
 
