@@ -9,4 +9,7 @@ task :data do
     #`curl -o #{tmpFile} #{dataUrl}` 
     `(cd /tmp; tar -xvf #{tmpFile})`
 
+    sourceDir = '/tmp/aclImdb/train/'
+    ``
+
 end
