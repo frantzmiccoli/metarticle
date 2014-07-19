@@ -1,15 +1,16 @@
+import itertools
+
 import crawler
 import entity
 import context
 import sentiment
-import itertools
 import conceptgraph
 
 target_url = 'http://www.cbinsights.com/blog/startup-failure-post-mortem'
 
 texts = crawler.getTextsFromUrl(target_url)
 
-resolved_texts = [entity.resolveAnaphore(text) for text in texts]
+resolved_texts = [entity.resolveAnaphores(text) for text in texts]
 
 contexts_lists = [context.extract(text) for text in texts]
 
