@@ -6,7 +6,7 @@ end
 task :data do
     dataUrl = 'http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz'
     tmpFile = '/tmp/metarticle-sentiment-dataset.tgz'
-    #`curl -o #{tmpFile} #{dataUrl}` 
+    `curl -o #{tmpFile} #{dataUrl}` 
     `(cd /tmp; tar -xvf #{tmpFile})`
 
     sourceDir = '/tmp/aclImdb/train/'
