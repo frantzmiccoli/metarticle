@@ -61,6 +61,9 @@ def compute_sentiment(values):
     return (best, float(bestCount)/float(total))
 
 for index, community in communities.items():
+    if len(entities_sentiments[community]) <= 2:
+        continue
+
     print community
     count = 0
     for entity in concept_graph.get_covered_entities(community, level):
