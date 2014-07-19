@@ -36,7 +36,7 @@ def get_html(url):
     return Document(response).summary()
 
 def get_text(url):
-    html = get_html()
+    html = get_html(url)
     return mlstripper.strip_tags(html)
 
 def get_texts_from_url(url):
