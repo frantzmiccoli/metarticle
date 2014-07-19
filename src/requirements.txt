@@ -4,4 +4,4 @@ readability-lxml
 TextBlob
 httplib2
 BeautifulSoup
-readability
+readability-lxml

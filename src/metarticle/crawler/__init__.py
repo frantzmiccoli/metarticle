@@ -34,13 +34,12 @@ def get_html(url):
 
     return Document(response).summary()
 
-
 def get_texts_from_url(url):
     links = get_links(url)
-    print 'links found: ' + len(links)
+    print 'links found: ', len(links)
     links = links[0:30]
 
-    texts = [get_text(link) for link in links]
+    texts = [get_html(link) for link in links]
 
     return texts
 
