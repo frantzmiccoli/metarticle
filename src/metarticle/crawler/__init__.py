@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 def get_texts_from_url(url):
     texts = []
 
