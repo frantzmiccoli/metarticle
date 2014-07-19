@@ -1,5 +1,5 @@
-def resolveAnaphore(text):
-    pass
+def resolveAnaphores(text):
+    return text
 
 def extract(text):
     '''
