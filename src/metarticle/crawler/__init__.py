@@ -29,7 +29,7 @@ def get_html(url):
     http = httplib2.Http()
     header, response = http.request(url)
     if header.status != 200:
-        print 'Holy shit got a ' + header.status + ' for ' + url
+        print 'Holy shit got a ', header.status, ' for ', url
         return
 
     return Document(response).summary()
