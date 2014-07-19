@@ -1,5 +1,6 @@
 import networkx
 
+
 class ConceptGraph:
 
     def __init__(self):

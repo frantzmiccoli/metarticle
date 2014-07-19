@@ -2,7 +2,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
 
-def resolveAnaphores(text):
+def resolve_anaphores(text):
     return text
 
 def extract(text):
