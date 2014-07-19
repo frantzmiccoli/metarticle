@@ -22,7 +22,7 @@ def load_samples(path, label, output):
         print fullpath
         data = open(fullpath).read()
         for sentence in sent_tokenize(data):
-            features = extract_features(data)
+            features = extract_features(sentence)
             output.append((features, label))
 
 def train_sentiment_classifier():
