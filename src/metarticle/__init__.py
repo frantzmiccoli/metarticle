@@ -34,6 +34,6 @@ for candidate_context in contexts:
     for (entity1, entity2) in itertools.combinations(context_entities_set, 2):
         concept_graph.add_edge(entity1, entity2)
 
-communities = concept_graph.communities()
+concept_graph.prepare_communities()
 
 
