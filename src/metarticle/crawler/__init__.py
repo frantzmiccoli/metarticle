@@ -27,6 +27,7 @@ def get_links(url):
     return list(set(links))
 
 def get_html(url):
+    # TODO huge shit could come from this too generic try / except
     try:
         http = httplib2.Http()
         header, response = http.request(url)
