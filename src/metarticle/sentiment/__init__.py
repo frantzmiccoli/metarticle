@@ -43,3 +43,5 @@ def get_sentiment(text):
     else:
         return 'neutral'
 
+def persist(classifier):
+    path = '../data/classifier.model'

@@ -4,28 +4,34 @@ from BeautifulSoup import BeautifulSoup, SoupStrainer
 from readability.readability import Document
 
 def get_links(url):
-    http = httplib2.Http()
-    status, response = http.request(url)
+    html = get_html(url)
+
+    if html is None:
+        return []
 
     links = []
-    for link in BeautifulSoup(response, parseOnlyThese=SoupStrainer('a')):
-        if link.has_attr('href'):
-            href = link['href']
-            has_blog = 'blog' in href
-            has_cbs = 'cbsinsight' in href
-            slash_count = href.count('/')
-            if not has_blog and (has_cbs or slash_count < 3):
-                # maybe not interesting
-                continue
-            links.append(href)
+    for extracted_link in BeautifulSoup(html, parseOnlyThese=SoupStrainer('a')):
+        href = extracted_link.get('href')
+        if href is None:
+            continue
 
-    return links
+        has_blog = 'blog' in href
+        has_cbs = 'cbinsight' in href
+        slash_count_ok = href.count('/') > 3
+        if (not has_blog) and (has_cbs or not slash_count_ok):
+            # maybe not interesting
+            continue
+        links.append(href)
 
-def get_text(url):
+    return list(set(links))
+
+def get_html(url):
     http = httplib2.Http()
-    status, response = http.request(url)
-    if status != 200:
-        print 'Holy shit got a ' + status + ' for ' + url
+    header, response = http.request(url)
+    if header.status != 200:
+        print 'Holy shit got a ' + header.status + ' for ' + url
+        return
+
     return Document(response).summary()
 
 
@@ -37,3 +43,7 @@ def get_texts_from_url(url):
     texts = [get_text(link) for link in links]
 
     return texts
+
+if __name__ == '__main__':
+    url = 'http://www.cbinsights.com/blog/startup-failure-post-mortem'
+    print get_links(url)
