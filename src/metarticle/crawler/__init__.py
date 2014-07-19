@@ -1,4 +1,4 @@
-def getTextsFromUrl(url):
+def get_texts_from_url(url):
     texts = []
 
     texts.append('''

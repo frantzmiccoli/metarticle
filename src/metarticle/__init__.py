@@ -8,9 +8,9 @@ import conceptgraph
 
 target_url = 'http://www.cbinsights.com/blog/startup-failure-post-mortem'
 
-texts = crawler.getTextsFromUrl(target_url)
+texts = crawler.get_texts_from_url(target_url)
 
-resolved_texts = [entity.resolveAnaphores(text) for text in texts]
+resolved_texts = [entity.resolve_anaphores(text) for text in texts]
 
 contexts_lists = [context.extract(text) for text in texts]
 
@@ -22,7 +22,7 @@ entities = []
 entities_sentiments = {}
 concept_graph = conceptgraph.ConceptGraph()
 for candidate_context in contexts:
-    sentiment = sentiment.getSentiment(candidate_context)
+    sentiment = sentiment.get_sentiment(candidate_context)
     context_entities_set = set(entity.extract(candidate_context))
     for extracted_entity in context_entities_set:
         entities.append(extracted_entity)
