@@ -31,3 +31,12 @@ end
 task :clean_inferred do
     `rm -rf #{targetDir}/inferred`
 end
+
+task :build_all => ['clean', 'data'] do
+    `(cd src;python metarticle/__init__.py)`
+
+end
+
+task :run do
+    `(cd public; python -m SimpleHTTPServer 8080) & open http://localhost:8080`
+end
