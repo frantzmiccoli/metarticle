@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import httplib2
 from readability.readability import Document
 from .. import mlstripper
 import hashlib
 import os
-from ... import cacheutil
+from metarticle import cacheutil
+
+cache_dir_path = '../data/crawler'
 
 def get_content(content_url):
     # TODO huge shit could come from this too generic try / except

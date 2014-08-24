@@ -3,9 +3,6 @@ from BeautifulSoup import BeautifulSoup, SoupStrainer
 from .. import generic
 
 
-cache_dir_path = '../data/crawler'
-
-
 def get_texts_from_url(content_url):
     links = get_links(content_url)
     print 'links found: ', len(links)

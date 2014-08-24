@@ -6,7 +6,6 @@ import context
 import sentiment
 import conceptgraph
 
-
 def compute_sentiment(entity_sentiments):
     counters = {}
     for sentiment in entity_sentiments:
@@ -153,27 +152,6 @@ if concept_graph is None:
                              entities_sentiments)
     cacheutil.store_in_cache(concept_graph_cache_path, concept_graph)
 
-if communities is None:
-    level = concept_graph.get_communities_levels_number() - 1
-    communities = concept_graph.get_communities_level(level)
-
-    cacheutil.store_in_cache(level_cache_path, level)
-    cacheutil.store_in_cache(communities_cache_path, communities)
-
-
-for index, community in communities.items():
-    continue
-    if len(entities_sentiments[community]) <= 2:
-        continue
-
-    print community
-    count = 0
-    for entity in concept_graph.get_covered_entities(community, level):
-        sentiment = compute_sentiment(entities_sentiments[entity])
-        if sentiment is None:
-            continue
-        
-        print '\t\t', entity, '\t', sentiment
 
 d3_representation = get_d3_representation(concept_graph)
 enhance_d3_representation(d3_representation)

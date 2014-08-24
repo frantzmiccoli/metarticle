@@ -1,7 +1,8 @@
-python-louvain
-networkx
-readability-lxml
-TextBlob
-httplib2
-BeautifulSoup
-readability-lxml
+python-louvain==0.2
+networkx==1.9
+readability-lxml==0.3.0.3
+textblob==0.8.4
+httplib2==0.9
+BeautifulSoup==3.2.1
+nltk==2.0.4
+

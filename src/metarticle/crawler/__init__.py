@@ -10,6 +10,13 @@ import cacheutil
 cache_dir_path = '../data/crawler'
 
 
+import github
+
+github_search_url = 'https://api.github.com/search/repositories?q=node+language:javascript&sort=stars&order=desc&per_page=100'
+
+github.get_repos(github_search_url)
+
+
 def get_links(content_url):
     html = get_html(content_url)
 
