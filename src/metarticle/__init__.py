@@ -49,6 +49,7 @@ def get_d3_children_representation(concept_graph,
         community_representation = {"name": entity_label}
         community_entities = concept_graph.get_covered_entities(entity_label,
                                                                 level)
+
         if len(community_entities) == 1:
             size = concept_graph.get_weight(entity_label)
             community_representation["value"] = size
@@ -70,6 +71,25 @@ def get_d3_flat_representation(concept_graph, entities):
             "value": concept_graph.get_weight(entity)
         })
     return representation
+
+
+def enhance_d3_representation(representation):
+    """
+    Currently some elements can contain only one children which doesn't make
+    sense. Let's fix this.
+
+    :param representation:dict
+    :return:
+    """
+    if not representation.has_key('children'):
+        #Leaf node nothing to do
+        return
+    if len(representation['children']) == 1:
+        representation['children'] = representation['children'][0]['children']
+        enhance_d3_representation(representation)
+        return
+    for child in representation['children']:
+        enhance_d3_representation(child)
 
 
 '''Cache util'''
@@ -155,10 +175,11 @@ for index, community in communities.items():
         
         print '\t\t', entity, '\t', sentiment
 
+d3_representation = get_d3_representation(concept_graph)
+enhance_d3_representation(d3_representation)
+
 json_file = open('../public/data.json', 'w')
 import json
-json_file.write(
-    json.dumps(get_d3_representation(concept_graph),
-               indent=4))
+json_file.write(json.dumps(d3_representation, indent=4))
 json_file.flush()
 json_file.close()
