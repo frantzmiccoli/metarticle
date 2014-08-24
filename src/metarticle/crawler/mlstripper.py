@@ -1,4 +1,3 @@
-__author__ = 'frantz'
 
 from HTMLParser import HTMLParser
 

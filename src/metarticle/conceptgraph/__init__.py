@@ -1,10 +1,15 @@
 import networkx
 import community
 
+
 class ConceptGraph:
 
     def __init__(self):
         self.g = networkx.Graph()
+
+    def drop_node(self, node):
+        if node in self.g.nodes():
+            self.g.remove_node(node)
 
     def add_edge(self, node1, node2):
         if self.g.has_edge(node1, node2):
@@ -16,8 +21,8 @@ class ConceptGraph:
         self.dendrogram = community.generate_dendrogram(self.g)
         for level in range(len(self.dendrogram)):
             pass 
-            #print "partition at level", level, "is",\
-            #    community.partition_at_level(self.dendrogram, level)
+            print "partition at level", level, "is",\
+                community.partition_at_level(self.dendrogram, level)
 
     def get_communities_levels_number(self):
         return len(self.dendrogram)
@@ -49,6 +54,9 @@ class ConceptGraph:
                 continue
             covered_entities.append(entity)
         return covered_entities
+
+    def get_weight(self, entity):
+        return self._get_weight(entity)
 
     def _get_weight(self, entity):
         total = 0.0

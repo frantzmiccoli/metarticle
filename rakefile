@@ -3,7 +3,7 @@ task :default do
     puts 'rake data'
 end
 
-targetDir = 'data/train/'
+targetDir = 'data/'
 
 task :data do
     dataUrl = 'http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz'
@@ -15,14 +15,19 @@ task :data do
 
     sourceDir = '/tmp/aclImdb/train/'
     howMany = '1024'
-    `mkdir -p #{targetDir}/pos`
-    `find #{sourceDir}/pos/ | grep txt|tail -n #{howMany}|xargs -I % cp % #{targetDir}/pos`
-    `mkdir -p #{targetDir}/neg`
-    `find #{sourceDir}/neg/ | grep txt|tail -n #{howMany}|xargs -I % cp % #{targetDir}/neg`
+    `mkdir -p #{targetDir}/train/pos`
+    `find #{sourceDir}/pos/ | grep txt|tail -n #{howMany}|xargs -I % cp % #{targetDir}/train/pos`
+    `mkdir -p #{targetDir}/train/neg`
+    `find #{sourceDir}/neg/ | grep txt|tail -n #{howMany}|xargs -I % cp % #{targetDir}/train/neg`
 end
 
-task :clean do
-    `rm -rf #{targetDir}/neg`
-    `rm -rf #{targetDir}/pos`
-    `rm -rf #{targetDir}/../classifier.model`
+task :clean => ['clean_inferred'] do
+    `rm -rf #{targetDir}/crawler`
+    `rm -rf #{targetDir}/train/neg`
+    `rm -rf #{targetDir}/train/pos`
+    `rm -rf #{targetDir}/classifier.model`
+end
+
+task :clean_inferred do
+    `rm -rf #{targetDir}/inferred`
 end
