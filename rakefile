@@ -32,7 +32,7 @@ task :clean_inferred do
     `rm -rf #{targetDir}/inferred`
 end
 
-task :build_all => ['clean', 'data'] do
+task :crunch do
     `(cd src;python metarticle/__init__.py)`
 
 end
