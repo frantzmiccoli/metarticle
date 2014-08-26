@@ -18,7 +18,10 @@ class ConceptGraph:
             self.g.add_edge(node1, node2, weight=1.0)
 
     def prepare_communities(self):
-        self.dendrogram = community.generate_dendrogram(self.g)
+        if hasattr(community, 'generate_dendrogram'):
+            self.dendrogram = community.generate_dendrogram(self.g)
+        else:
+            self.dendrogram = community.generate_dendogram(self.g)
         for level in range(len(self.dendrogram)):
             pass 
             #print "partition at level", level, "is",\

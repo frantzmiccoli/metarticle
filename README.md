@@ -5,7 +5,7 @@ General idea
 
 Data is gathered from popular GitHub repositories around a keyword ("node" in the demo) and then crunched to extract a hierarchy of concept for this keyword.
 
-More details here:
+More details here: https://thedarkside.frantzmiccoli.com/experimentations/2014/08/25/knowledge-extraction-from-multiple-texts-github-data-challenge.html
 
 See the dataviz here: http://frantzmiccoli.github.io/metarticle
 
