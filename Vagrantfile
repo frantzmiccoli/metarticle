@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     sudo apt-get -y install python-pip python-dev libxml2-dev libxslt1-dev python-yaml rake curl
     cd /vagrant/src/
     sudo pip install -r requirements.txt
-    sudo python -m nltk.downloader all
+    python -m nltk.downloader all
     cd ..
     rake data
     rake crunch
