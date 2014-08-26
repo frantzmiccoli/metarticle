@@ -7,4 +7,4 @@ BeautifulSoup==3.2.1
 nltk==2.0.4
 lxml==3.3.5
 misaka==1.0.2
-
+numpy==1.8.1
