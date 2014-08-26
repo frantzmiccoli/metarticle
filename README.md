@@ -7,7 +7,7 @@ Data is gathered from popular GitHub repositories around a keyword ("node" in th
 
 More details here:
 
-See the dataviz here: https://frantzmiccoli.github.io/metarticle
+See the dataviz here: http://frantzmiccoli.github.io/metarticle
 
 Try it at home
 ===
