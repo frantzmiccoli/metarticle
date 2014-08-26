@@ -6,6 +6,7 @@ import context
 import sentiment
 import conceptgraph
 import domainexcludedentities
+import d3helper
 
 #target_url = 'http://www.cbinsights.com/blog/startup-failure-post-mortem'
 target_url = 'https://api.github.com/search/repositories?q=node+language:javascript&sort=stars&order=desc&per_page=100'
@@ -29,71 +30,6 @@ def compute_sentiment(entity_sentiments):
     return best, float(best_count)/float(total)
 
 
-def get_d3_representation(concept_graph):
-    representation = {
-        "name": "Node",
-        "children": get_d3_children_representation(concept_graph)
-    }
-    return representation
-
-
-def get_d3_children_representation(concept_graph,
-                                   filtered_entities=None,
-                                   level_from_top=1):
-    level = concept_graph.get_communities_levels_number() - level_from_top
-    if level < 0:
-        return get_d3_flat_representation(concept_graph, filtered_entities)
-
-    representation = []
-    communities = concept_graph.get_communities_level(level, filtered_entities)
-
-    for _, entity_label in communities .iteritems():
-        community_representation = {"name": entity_label}
-        community_entities = concept_graph.get_covered_entities(entity_label,
-                                                                level)
-
-        if len(community_entities) == 1:
-            size = concept_graph.get_weight(entity_label)
-            community_representation["value"] = size
-        else:
-            community_representation["children"] = \
-                get_d3_children_representation(concept_graph,
-                                               community_entities,
-                                               level_from_top + 1)
-        representation.append(community_representation)
-
-    return representation
-
-
-def get_d3_flat_representation(concept_graph, entities):
-    representation = []
-    for entity in entities:
-        representation.append({
-            "name": entity,
-            "value": concept_graph.get_weight(entity)
-        })
-    return representation
-
-
-def enhance_d3_representation(representation):
-    """
-    Currently some elements can contain only one children which doesn't make
-    sense. Let's fix this.
-
-    :param representation:dict
-    :return:
-    """
-    if not representation.has_key('children'):
-        #Leaf node nothing to do
-        return
-    if len(representation['children']) == 1:
-        representation['children'] = representation['children'][0]['children']
-        enhance_d3_representation(representation)
-        return
-    for child in representation['children']:
-        enhance_d3_representation(child)
-
-
 '''Cache util'''
 import os
 import cacheutil
@@ -108,12 +44,6 @@ entities_sentiments = cacheutil.get_from_cache(entities_sentiments_cache_path)
 
 concept_graph_cache_path = os.path.join(cache_dir_path, 'concept_graph')
 concept_graph = cacheutil.get_from_cache(concept_graph_cache_path)
-
-level_cache_path = os.path.join(cache_dir_path, 'level')
-level = cacheutil.get_from_cache(level_cache_path)
-
-communities_cache_path = os.path.join(cache_dir_path, 'communities')
-communities = cacheutil.get_from_cache(communities_cache_path)
 
 
 if concept_graph is None:
@@ -162,8 +92,7 @@ if concept_graph is None:
     cacheutil.store_in_cache(concept_graph_cache_path, concept_graph)
 
 
-d3_representation = get_d3_representation(concept_graph)
-enhance_d3_representation(d3_representation)
+d3_representation = d3helper.get_d3_representation(concept_graph)
 
 json_file = open('../public/data.json', 'w')
 import json
