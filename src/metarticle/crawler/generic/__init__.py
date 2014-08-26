@@ -9,6 +9,7 @@ from metarticle import cacheutil
 
 cache_dir_path = '../data/crawler'
 
+
 def get_content(content_url):
     # TODO huge shit could come from this too generic try / except
     cached_status = get_status_from_cache(content_url)
@@ -30,6 +31,9 @@ def get_status_and_content_from_network(content_url):
         if header.status != 200:
             print 'Holy shit got a ', header.status, ' for ', content_url
             return header.status, ''
+        if ('github.com/' in content_url) or \
+                ('githubusercontent.com' in content_url):
+            return header.status, response
         return header.status, Document(response).summary()
     except:
         return None, ''

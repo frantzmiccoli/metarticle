@@ -1,4 +1,3 @@
-import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tag import pos_tag
@@ -13,7 +12,6 @@ def extract(text):
     :param text: a text to extract entity from
     :return:
     '''
-
     # Load wordnet
     wordnet = WordNetLemmatizer()
 

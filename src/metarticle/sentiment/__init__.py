@@ -5,6 +5,7 @@ from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer, sent_tokenize
 
+from metarticle import cacheutil
 
 def extract_features(text):
     splitter = RegexpTokenizer(r'\w+')
@@ -34,7 +35,7 @@ def train_sentiment_classifier():
 
 def get_sentiment(text):
     features = extract_features(text)
-    dist = sentiment_classifier.prob_classify(features)
+    dist = get_sentiment_classifier().prob_classify(features)
     if dist.prob('neg') >= 2./3.:
         return 'negative'
     elif dist.prob('pos') >= 2./3.:
@@ -44,21 +45,14 @@ def get_sentiment(text):
 
 classifier_path = '../data/classifier.model'
 
-def persist(classifier):
-    handle = open(classifier_path, 'w')
-    pickle.dump(classifier, handle)
-    handle.close()
+_sentiment_classifier = None
 
-def restore():
-    if os.path.exists(classifier_path):
-        handle = open(classifier_path)
-        return pickle.load(handle)
 
-sentiment_classifier = restore()
-
-if sentiment_classifier is None:
-    sentiment_classifier = train_sentiment_classifier()
-    persist(sentiment_classifier)
-    print 'classifier created and persisted'
-else:
-    print 'classifier restored'
+def get_sentiment_classifier():
+    global _sentiment_classifier
+    if _sentiment_classifier is None:
+        _sentiment_classifier = cacheutil.get_from_cache(classifier_path)
+    if _sentiment_classifier is None:
+        _sentiment_classifier = train_sentiment_classifier()
+        cacheutil.store_in_cache(classifier_path, _sentiment_classifier)
+    return _sentiment_classifier

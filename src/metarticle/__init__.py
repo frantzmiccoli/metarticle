@@ -5,6 +5,10 @@ import entity
 import context
 import sentiment
 import conceptgraph
+import domainexcludedentities
+
+#target_url = 'http://www.cbinsights.com/blog/startup-failure-post-mortem'
+target_url = 'https://api.github.com/search/repositories?q=node+language:javascript&sort=stars&order=desc&per_page=100'
 
 def compute_sentiment(entity_sentiments):
     counters = {}
@@ -26,9 +30,8 @@ def compute_sentiment(entity_sentiments):
 
 
 def get_d3_representation(concept_graph):
-    print concept_graph.get_communities_levels_number()
     representation = {
-        "name": "Core",
+        "name": "Node",
         "children": get_d3_children_representation(concept_graph)
     }
     return representation
@@ -114,11 +117,12 @@ communities = cacheutil.get_from_cache(communities_cache_path)
 
 
 if concept_graph is None:
-    target_url = 'http://www.cbinsights.com/blog/startup-failure-post-mortem'
-
     texts = crawler.get_texts_from_url(target_url)
 
     resolved_texts = [entity.resolve_anaphores(text) for text in texts]
+
+    domain_excluded_entities = domainexcludedentities.\
+        get_domain_excluded_entities(texts)
 
     contexts_lists = [context.extract(text) for text in texts]
     contexts = []
@@ -132,12 +136,17 @@ if concept_graph is None:
         entity_sentiment = sentiment.get_sentiment(candidate_context)
         context_entities_set = set(entity.extract(candidate_context))
         for extracted_entity in context_entities_set:
+            if extracted_entity in domain_excluded_entities:
+                continue
             entities.append(extracted_entity)
             if extracted_entity not in entities_sentiments:
                 entities_sentiments[extracted_entity] = []
             entities_sentiments[extracted_entity].append(entity_sentiment)
 
         for (entity1, entity2) in itertools.combinations(context_entities_set, 2):
+            if (entity1 in domain_excluded_entities) or\
+                    (entity2 in domain_excluded_entities):
+                continue
             concept_graph.add_edge(entity1, entity2)
 
     for entity, sentiments in entities_sentiments.iteritems():

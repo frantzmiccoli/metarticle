@@ -1,6 +1,8 @@
 task :default do
     puts 'rake clean'
     puts 'rake data'
+    puts 'rake crunch'
+    puts 'rake run'
 end
 
 targetDir = 'data/'
@@ -33,8 +35,8 @@ task :clean_inferred do
 end
 
 task :crunch do
-    `(cd src;python metarticle/__init__.py)`
-
+    pwd_command = '`pwd`'
+    `(cd src;export PYTHONPATH=$PYTHONPATH\:#{pwd_command};python metarticle/__init__.py)`
 end
 
 task :run do
